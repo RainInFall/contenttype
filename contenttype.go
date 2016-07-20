@@ -19,45 +19,12 @@ func Parameters(a map[string]string) Objectstringstring {
 	return a
 }
 
-var paramRegExp, textRegExp, tokenRegExp *regexp.Regexp
-var qescRegExp, quoteRegExp, typeRegExp *regexp.Regexp
-
-/*
-Init should run before any functions of package called
-*/
-func Init() {
-	var err error
-
-	paramRegString := "; *([!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+) *= *(\"(?:[\\x{000b}\\x{0020}\\x{0021}\\x{0023}-\\x{005b}\\x{005d}-\\x{007e}\\x{0080}-\\x{00ff}]|\\\\[\\x{000b}\\x{0020}-\\x{00ff}])*\"|[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+) *"
-	if paramRegExp, err = regexp.Compile(paramRegString); nil != err {
-		panic(err)
-	}
-
-	textRegString := "^[\\x{000b}\\x{0020}-\\x{007e}\\x{0080}-\\x{00ff}]+$"
-	if textRegExp, err = regexp.Compile(textRegString); nil != err {
-		panic(err)
-	}
-
-	tokenRegString := "^[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+$"
-	if tokenRegExp, err = regexp.Compile(tokenRegString); nil != err {
-		panic(err)
-	}
-
-	qescRegString := "\\\\([\\x{000b}\\x{0020}-\\x{00ff}])"
-	if qescRegExp, err = regexp.Compile(qescRegString); nil != err {
-		panic(err)
-	}
-
-	quoteRegString := "([\\\\\"])"
-	if quoteRegExp, err = regexp.Compile(quoteRegString); nil != err {
-		panic(err)
-	}
-
-	typeRegString := "^[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+\\/[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+$"
-	if typeRegExp, err = regexp.Compile(typeRegString); nil != err {
-		panic(err)
-	}
-}
+var paramRegExp = regexp.MustCompile("; *([!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+) *= *(\"(?:[\\x{000b}\\x{0020}\\x{0021}\\x{0023}-\\x{005b}\\x{005d}-\\x{007e}\\x{0080}-\\x{00ff}]|\\\\[\\x{000b}\\x{0020}-\\x{00ff}])*\"|[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+) *")
+var textRegExp = regexp.MustCompile("^[\\x{000b}\\x{0020}-\\x{007e}\\x{0080}-\\x{00ff}]+$")
+var tokenRegExp = regexp.MustCompile("^[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+$")
+var qescRegExp = regexp.MustCompile("\\\\([\\x{000b}\\x{0020}-\\x{00ff}])")
+var quoteRegExp = regexp.MustCompile("([\\\\\"])")
+var typeRegExp = regexp.MustCompile("^[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+\\/[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+$")
 
 /*
 Format object to media type

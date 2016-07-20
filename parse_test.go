@@ -24,7 +24,6 @@ var invalidTypes = []string{
 
 func TestParse(t *testing.T) {
 	assert.Init(t)
-	Init()
 
 	func() {
 		typ, err := Parse("text/html")
