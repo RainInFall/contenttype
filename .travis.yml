@@ -6,7 +6,7 @@ go:
 
 install:
   - go get github.com/RainInFall/assert
-  - go get github.com/RainInFall/gotemplate
+  - go get github.com/ncw/gotemplate
   - go get github.com/RainInFall/js-like
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/mattn/goveralls
