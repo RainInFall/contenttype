@@ -11,21 +11,21 @@ func TestFormat(t *testing.T) {
 	assert.Init(t)
 
 	func() {
-		str, err := Format(&ContentType{typ: "text/html"})
+		str, err := Format(&ContentType{Type: "text/html"})
 		assert.Ok(nil == err)
 		assert.Ok("text/html" == str)
 	}()
 
 	func() {
-		str, err := Format(&ContentType{typ: "image/svg+xml"})
+		str, err := Format(&ContentType{Type: "image/svg+xml"})
 		assert.Ok(nil == err)
 		assert.Ok("image/svg+xml" == str)
 	}()
 
 	func() {
 		str, err := Format(&ContentType{
-			typ: "text/html",
-			parameters: map[string]string{
+			Type: "text/html",
+			Parameters: map[string]string{
 				"charset": "utf-8",
 			},
 		})
@@ -35,8 +35,8 @@ func TestFormat(t *testing.T) {
 
 	func() {
 		str, err := Format(&ContentType{
-			typ: "text/html",
-			parameters: map[string]string{
+			Type: "text/html",
+			Parameters: map[string]string{
 				"foo": "bar or \"baz\"",
 			},
 		})
@@ -46,8 +46,8 @@ func TestFormat(t *testing.T) {
 
 	func() {
 		str, err := Format(&ContentType{
-			typ: "text/html",
-			parameters: map[string]string{
+			Type: "text/html",
+			Parameters: map[string]string{
 				"foo": "",
 			},
 		})
@@ -57,8 +57,8 @@ func TestFormat(t *testing.T) {
 
 	func() {
 		str, err := Format(&ContentType{
-			typ: "text/html",
-			parameters: map[string]string{
+			Type: "text/html",
+			Parameters: map[string]string{
 				"charset": "utf-8",
 				"foo":     "bar",
 				"bar":     "baz",
@@ -79,19 +79,19 @@ func TestFormat(t *testing.T) {
 	}()
 
 	func() {
-		_, err := Format(&ContentType{typ: "text/"})
+		_, err := Format(&ContentType{Type: "text/"})
 		assert.Ok(nil != err && regexp.MustCompile("invalid type").MatchString(err.Error()))
 	}()
 
 	func() {
-		_, err := Format(&ContentType{typ: " text/html"})
+		_, err := Format(&ContentType{Type: " text/html"})
 		assert.Ok(nil != err && regexp.MustCompile("invalid type").MatchString(err.Error()))
 	}()
 
 	func() {
 		_, err := Format(&ContentType{
-			typ: "image/svg",
-			parameters: map[string]string{
+			Type: "image/svg",
+			Parameters: map[string]string{
 				"foo/": "bar",
 			},
 		})
@@ -100,8 +100,8 @@ func TestFormat(t *testing.T) {
 
 	func() {
 		_, err := Format(&ContentType{
-			typ: "image/svg",
-			parameters: map[string]string{
+			Type: "image/svg",
+			Parameters: map[string]string{
 				"foo": "bar\u0000",
 			},
 		})

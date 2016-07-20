@@ -14,8 +14,8 @@ import (
 ContentType contains media type and parameters
 */
 type ContentType struct {
-	typ        string
-	parameters Objectstringstring
+	Type       string
+	Parameters Objectstringstring
 }
 
 /*
@@ -39,17 +39,17 @@ func Format(contentType *ContentType) (string, error) {
 	if nil == contentType {
 		return "", errors.New("argument ContentType is required")
 	}
-	if !typeRegExp.MatchString(contentType.typ) {
+	if !typeRegExp.MatchString(contentType.Type) {
 		return "", errors.New("invalid type")
 	}
 
-	result := contentType.typ
+	result := contentType.Type
 
-	for _, param := range contentType.parameters.Keys().Sort() {
+	for _, param := range contentType.Parameters.Keys().Sort() {
 		if !tokenRegExp.MatchString(param) {
 			return "", errors.New("invalid parameter name")
 		}
-		if value, err := qstring(contentType.parameters[param]); nil == err {
+		if value, err := qstring(contentType.Parameters[param]); nil == err {
 			result += "; " + param + "=" + value
 		} else {
 			return "", err
