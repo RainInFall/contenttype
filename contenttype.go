@@ -36,6 +36,9 @@ var typeRegExp = regexp.MustCompile("^[!#$%&'\\*\\+\\-\\.\\^_`\\|~0-9A-Za-z]+\\/
 Format object to media type
 */
 func Format(contentType *ContentType) (string, error) {
+	if nil == contentType {
+		return "", errors.New("argument ContentType is required")
+	}
 	if !typeRegExp.MatchString(contentType.typ) {
 		return "", errors.New("invalid type")
 	}
@@ -44,7 +47,7 @@ func Format(contentType *ContentType) (string, error) {
 
 	for _, param := range contentType.parameters.Keys().Sort() {
 		if !tokenRegExp.MatchString(param) {
-			return "", errors.New("invalid paremeter name")
+			return "", errors.New("invalid parameter name")
 		}
 		if value, err := qstring(contentType.parameters[param]); nil == err {
 			result += "; " + param + "=" + value
