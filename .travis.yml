@@ -1,0 +1,20 @@
+language: go
+
+go:
+  - 1.6
+  - tip
+
+install:
+  - go get github.com/RainInFall/assert
+  - go get github.com/RainInFall/js-like
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+
+before_script:
+  - go generate
+
+script: 
+  - go test -v -covermode=count -coverprofile=cover.out
+
+after_script:
+  - $HOME/gopath/bin/goveralls -coverprofile=cover.out -service=travis-ci -repotoken $COVERALLS_TOKEN
