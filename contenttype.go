@@ -10,11 +10,17 @@ import (
 
 //go:generate js-like object string string
 
+/*
+ContentType contains media type and parameters
+*/
 type ContentType struct {
 	typ        string
 	parameters Objectstringstring
 }
 
+/*
+Parameters convert map to Parameters type without explicit
+*/
 func Parameters(a map[string]string) Objectstringstring {
 	return a
 }
@@ -51,11 +57,28 @@ func Format(contentType *ContentType) (string, error) {
 }
 
 /*
-Parse
+Response is an interface represent http response handler
 */
+type Response interface {
+	Header() http.Header
+}
 
+/*
+ParserResponse parser Content-Type from response handler
+*/
+func ParserResponse(res Response) (*ContentType, error) {
+	return ParseHeader(res.Header())
+}
+
+/*
+ParseRequest parse Content-Type from struct with { Header http.Header }
+*/
 func ParseRequest(req interface{}) (*ContentType, error) {
-	headerField := reflect.ValueOf(req).FieldByName("Header")
+	request := reflect.ValueOf(req)
+	if !request.IsValid() {
+		return nil, errors.New("content-type header is missing from object")
+	}
+	headerField := request.FieldByName("Header")
 	if !headerField.IsValid() || !headerField.Type().ConvertibleTo(reflect.TypeOf((http.Header)(nil))) {
 		return nil, errors.New("content-type header is missing from object")
 	}
@@ -66,6 +89,9 @@ func ParseRequest(req interface{}) (*ContentType, error) {
 ParseHeader parse media type from http header
 */
 func ParseHeader(header http.Header) (*ContentType, error) {
+	if nil == header {
+		return nil, errors.New("content-type header is missing from object")
+	}
 	str := header.Get("content-type")
 	if "" == str {
 		return nil, errors.New("content-type header is missing from object")

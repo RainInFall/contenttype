@@ -138,6 +138,11 @@ func TestParse(t *testing.T) {
 	}()
 
 	func() {
+		_, err := ParseRequest(nil)
+		assert.Ok(nil != err && regexp.MustCompile("content-type header is missing").MatchString(err.Error()))
+	}()
+
+	func() {
 		req := http.Request{
 			Header: http.Header{
 				"Content-Type": []string{"text/html"},
@@ -147,4 +152,29 @@ func TestParse(t *testing.T) {
 		assert.Ok(nil == err)
 		assert.Ok("text/html" == typ.typ)
 	}()
+
+	func() {
+		res := TempResponse{http.Header{
+			"Content-Type": []string{"text/html"},
+		}}
+
+		typ, err := ParserResponse(res)
+		assert.Ok(nil == err)
+		assert.Ok("text/html" == typ.typ)
+	}()
+
+	func() {
+		res := TempResponse{}
+
+		_, err := ParserResponse(res)
+		assert.Ok(nil != err && regexp.MustCompile("content-type header is missing").MatchString(err.Error()))
+	}()
+}
+
+type TempResponse struct {
+	header http.Header
+}
+
+func (res TempResponse) Header() http.Header {
+	return res.header
 }
