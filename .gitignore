@@ -23,8 +23,5 @@ _testmain.go
 *.test
 *.prof
 
-#gotemplate
-gotemplate_*.go
-
 #vscode
 .vscode
