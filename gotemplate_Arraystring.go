@@ -9,21 +9,6 @@ import (
 //Array has js-like functions
 type Arraystring []string
 
-/********Self defination Begin*******************/
-func (array Arraystring) Len() int {
-	return len(array)
-}
-
-func (array Arraystring) Less(i, j int) bool {
-	return array[i] < array[j]
-}
-
-func (array Arraystring) Swap(i, j int) {
-	array[i], array[j] = array[j], array[i]
-}
-
-/********Self defination End*******************/
-
 /*
 Some tests whether some element in the array passes the test implemented by the provided function
 */
