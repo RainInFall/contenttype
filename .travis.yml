@@ -19,4 +19,4 @@ script:
   - go test -v -covermode=count -coverprofile=cover.out
 
 after_script:
-  - $HOME/gopath/bin/goveralls -coverprofile=cover.out -ignore=gotemplate_*.go -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - $HOME/gopath/bin/goveralls -coverprofile=cover.out -ignore=gotemplate_*.go,def.go -service=travis-ci -repotoken $COVERALLS_TOKEN

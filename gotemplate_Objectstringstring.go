@@ -5,14 +5,6 @@ package contenttype
 //Object has js-like functions
 type Objectstringstring map[string]string
 
-/********Self defination Begin*******************/
-
-func (obj Objectstringstring) Less(i, j string) bool {
-	return obj[i] < obj[j]
-}
-
-/********Self defination End*******************/
-
 /*
 Keys return array of keys of the Obecjt
 */
